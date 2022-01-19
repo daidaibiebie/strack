@@ -346,17 +346,17 @@ class MessageService
         $messageMemberData = $this->saveMessageMember($memberData, $lastMessageIds, $primaryIds, $messageData['created_by']);
 
         // TODO 发送邮件消息
-//        if (array_key_exists('response_data', $data)) {
-//            $emailService = new EmailService();
-//            $template = "item";
-//            $emailData = $this->dealEmailContent($template, $data, $messageMemberData["email"]);
-//            $emailData = $emailService->initParam($emailData);
-//            //wechat参数
-//            $emailData["param"]["wechat"] = join(",", $messageMemberData["wechat"]);
-//            $emailData["param"]["detail_url"] = $data["response_data"]["detail_url"];
-//            $emailService->addToQueue($emailData);
-//
-//        }
+       if (array_key_exists('response_data', $data)) {
+           $emailService = new EmailService();
+           $template = "item";
+           $emailData = $this->dealEmailContent($template, $data, $messageMemberData["email"]);
+           $emailData = $emailService->initParam($emailData);
+           //wechat参数
+           $emailData["param"]["wechat"] = join(",", $messageMemberData["wechat"]);
+           $emailData["param"]["detail_url"] = $data["response_data"]["detail_url"];
+           $emailService->addToQueue($emailData);
+
+       }
     }
 
 
