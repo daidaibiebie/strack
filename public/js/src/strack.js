@@ -8370,6 +8370,28 @@ var Strack = {
                     }else {
                         inval = Strack.get_combos_val('#' + did, 'combobox', 'getValue');
                     }
+                    var param = Strack.get_combos_val('#' + did, 'combobox', 'getValues');
+                    var email_content="您有新的任务颁布，请前往“strack”查看"
+                    this.$.ajax({
+                        type:"POST",
+                        url:EmailPHP['testSendEmail'],
+                        dataType:'json',
+                        data :{
+                            email_content:email_content,
+                            email_account:param["email"]
+                        },
+                        beforeSend:function(){
+                            $.messager.progress({ title:StrackPHP['Waiting'], msg:StrackPHP['loading']});
+                        },
+                        success:function(data){
+                            $.messager.progress('close');
+                            var dom = '';
+                            dom += '<p style="font-weight: 600;color: #FF4949">' +
+                                StrackLang["Sending_Results"]+': '+data['message']+'' +
+                                '</p>';
+                            $("#test_email_result").empty().append(dom);
+                        }
+                    });
                     break;
                 case 'datebox':
                     inval = $did.datebox('getValue');
